@@ -77,15 +77,15 @@ Class Runnable <<Interface>> {
     +run() : void
 }
 
-Class ActionListener <<interface>> {
+Class ActionListener <<Interface>> {
     +actionPerformed(e : ActionEvent) : void
 }
 
-Class Observer <<interface>> {
+Class Observer <<Interface>> {
     +update(o : Observable, arg : Object)
 }
 
-Class MouseListener <<interface>> {
+Class MouseListener <<Interface>> {
     +mouseClicked(e : MouseEvent) : void
     +mouseEntered(e : MouseEvent) : void
     +mouseExited(e : MouseEvent) : void
