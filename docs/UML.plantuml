@@ -2,6 +2,8 @@
 skinparam linetype ortho
 hide empty members
 
+title __Global Gomoku UML__
+together {
 Package lab4.client {
 
     Class Listener {
@@ -72,17 +74,17 @@ Package lab4 {
         +main(String[] : argv) : void
     }
 }
-
+}
 Class Runnable <<Interface>> {
     +run() : void
 }
 
-Class ActionListener <<Interface>> {
-    +actionPerformed(e : ActionEvent) : void
-}
-
 Class Observer <<Interface>> {
     +update(o : Observable, arg : Object)
+}
+
+Class ActionListener <<Interface>> {
+    +actionPerformed(e : ActionEvent) : void
 }
 
 Class MouseListener <<Interface>> {
@@ -113,15 +115,15 @@ GomokuGUI +-- MouseListener
 GomokuMain o-- GomokuClient
 GomokuMain o-- GomokuGUI
 GomokuMain o-- GomokuGameState
-Runnable <|.. Listener
+Runnable <|.right. Listener
 Runnable <|.. GomokuClient
 ActionListener <|-- ConnectionWindow
-Observer <|.. GomokuGameState
-Observer <|.. GamePanel
-Observer <|.. GomokuGUI
+Observer <|.up. GomokuGameState
+Observer <|.up. GamePanel
+Observer <|.up. GomokuGUI
 JPanel <|-- GamePanel
-Observable <|-- GomokuClient
-Observable <|-- GameGrid
-Observable <|-- GomokuGameState
+Observable <|-up- GomokuClient
+Observable <|-up- GameGrid
+Observable <|-up- GomokuGameState
 
 @enduml
