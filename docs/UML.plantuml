@@ -1,10 +1,129 @@
 @startuml
+skinparam linetype ortho
+hide empty members
 
-class dummy {
-    -field1
-    #field2
-    ~method1()
-    +method2()
+Package lab4.client {
+
+    
+    Observable <|-- GomokuClient
+    
+
+    Class Listener {
+        +Listener(client : GomokuClient, portnr : int)
+        +closeSocket() : void
+    }
+
+    Class GomokuClient {
+        +UNCONNECTED : static final int
+        +SERVER : static final int
+        +CLIENT : static final int
+        +GomokuClient(portnr : int)
+        +foundConnection(writer : Printwriter, reader : BufferedReader, amClient : boolean) : void
+        +setGameState(gs : GameState) : void
+        +sendMoveMessage(x : int, y : int) : boolean
+        +sendNewGameMessage() : boolean
+        +disconnect() : void
+        +getConnectionStatus() : int
+    }
+}
+
+Package lab4.data {
+
+    
+    
+
+    Class GameGrid{
+        +EMPTY : static final int
+        +ME : static final int
+        +OTHER : static final int
+        +GameGrid(size : int)
+        +getLocation(x : int, y : int) : int
+        +getSize() : int
+        +move(x : int, y : int, player : int) : boolean
+        +clearGrid() : void
+        +isWinner(player : int) : boolean
+    }
+
+    Class GomokuGameState {
+        +GomokuGameState(gc : GomokuClient)
+        +getMessageString() : String
+        +getGameGrid() : GameGrid
+        +move(x : int, y : int) : void
+        +newgame() : void
+        +recievedNewGame() : void
+        +otherGuyLeft() : void
+        +disconnect() : void
+        +recievedMove(x : int, y : int)
+    }
+}
+
+Package lab4.gui {
+
+    
+
+    Class ConnectionWindow {
+        +ConnectionWindow(client : GomokuClient)
+    }
+
+    Class GomokuGUI {
+        +GomokuGUI(gamestate : GomokuGameState, client : GomokuClient)
+    }
+
+    Class GamePanel {
+        +GamePanel(grid : GameGrid)
+        +getGridPosition(x : int, y : int) : int[]
+    }
+}
+
+Package lab4 {
+
+    GomokuMain o-- GomokuClient
+    GomokuMain o-- GomokuGUI
+    GomokuMain o-- GomokuGameState
+
+    Class GomokuMain {
+        +main(String[] : argv) : void
+    }
+}
+
+Runnable <|.. Listener
+Runnable <|.. GomokuClient
+
+Class Runnable <<Interface>> {
+    +run() : void
+}
+
+ActionListener +-- GomokuGUI
+
+Class ActionListener <<interface>> {
+    +actionPerformed(e : ActionEvent) : void
+}
+
+Class Observer <<interface>> {
+    +update(o : Observable, arg : Object)
+}
+
+MouseListener +-- GomokuGUI
+
+Class MouseListener <<interface>> {
+    +mouseClicked(e : MouseEvent) : void
+    +mouseEntered(e : MouseEvent) : void
+    +mouseExited(e : MouseEvent) : void
+    +mousePressed(e : MouseEvent) : void
+    +mouseReleased(e : MouseEvent) : void
+}
+
+JPanel <|-- GamePanel
+
+Class JPanel {
+
+}
+
+Observable <|-- GameGrid
+Observable <|-- GomokuGameState
+
+Class Observable {
+
 }
 
 @enduml
