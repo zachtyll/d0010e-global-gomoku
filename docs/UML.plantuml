@@ -4,10 +4,6 @@ hide empty members
 
 Package lab4.client {
 
-    
-    Observable <|-- GomokuClient
-    
-
     Class Listener {
         +Listener(client : GomokuClient, portnr : int)
         +closeSocket() : void
@@ -28,9 +24,6 @@ Package lab4.client {
 }
 
 Package lab4.data {
-
-    
-    
 
     Class GameGrid{
         +EMPTY : static final int
@@ -59,8 +52,6 @@ Package lab4.data {
 
 Package lab4.gui {
 
-    
-
     Class ConnectionWindow {
         +ConnectionWindow(client : GomokuClient)
     }
@@ -77,23 +68,14 @@ Package lab4.gui {
 
 Package lab4 {
 
-    GomokuMain o-- GomokuClient
-    GomokuMain o-- GomokuGUI
-    GomokuMain o-- GomokuGameState
-
     Class GomokuMain {
         +main(String[] : argv) : void
     }
 }
 
-Runnable <|.. Listener
-Runnable <|.. GomokuClient
-
 Class Runnable <<Interface>> {
     +run() : void
 }
-
-ActionListener +-- GomokuGUI
 
 Class ActionListener <<interface>> {
     +actionPerformed(e : ActionEvent) : void
@@ -103,8 +85,6 @@ Class Observer <<interface>> {
     +update(o : Observable, arg : Object)
 }
 
-MouseListener +-- GomokuGUI
-
 Class MouseListener <<interface>> {
     +mouseClicked(e : MouseEvent) : void
     +mouseEntered(e : MouseEvent) : void
@@ -113,17 +93,35 @@ Class MouseListener <<interface>> {
     +mouseReleased(e : MouseEvent) : void
 }
 
-JPanel <|-- GamePanel
-
 Class JPanel {
 
 }
 
-Observable <|-- GameGrid
-Observable <|-- GomokuGameState
-
 Class Observable {
 
 }
+
+GomokuClient <.. GomokuGameState : observes
+GomokuClient <.. GomokuGUI : observes
+GameGrid <.. GamePanel : observes
+GomokuGameState o-- GameGrid
+GomokuGameState <.. GomokuGUI : observes
+ConnectionWindow <.. GomokuGUI
+GomokuGUI +-- ActionListener
+GomokuGUI o-- GamePanel
+GomokuGUI +-- MouseListener
+GomokuMain o-- GomokuClient
+GomokuMain o-- GomokuGUI
+GomokuMain o-- GomokuGameState
+Runnable <|.. Listener
+Runnable <|.. GomokuClient
+ActionListener <|-- ConnectionWindow
+Observer <|.. GomokuGameState
+Observer <|.. GamePanel
+Observer <|.. GomokuGUI
+JPanel <|-- GamePanel
+Observable <|-- GomokuClient
+Observable <|-- GameGrid
+Observable <|-- GomokuGameState
 
 @enduml
