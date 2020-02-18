@@ -6,7 +6,7 @@ import lab4.client.GomokuClient;
 import lab4.data.GameGrid;
 import lab4.data.GomokuGameState;
 
-/*
+/**
  * The GUI class
  */
 
