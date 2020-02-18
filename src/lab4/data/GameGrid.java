@@ -7,14 +7,17 @@ import java.util.Observable;
  */
 
 public class GameGrid extends Observable{
+	private int[][] grid;
 
-	
+
 	/**
 	 * Constructor
 	 * 
 	 * @param size The width/height of the game grid
 	 */
-	public GameGrid(int size){}
+	public GameGrid(int size){
+		this.grid = new int[size][size];
+	}
 	
 	/**
 	 * Reads a location of the grid
@@ -23,14 +26,18 @@ public class GameGrid extends Observable{
 	 * @param y The y coordinate
 	 * @return the value of the specified location
 	 */
-	public int getLocation(int x, int y){}
+	public int getLocation(int x, int y){
+		return this.grid[x][y];
+	}
 	
 	/**
 	 * Returns the size of the grid
 	 * 
 	 * @return the grid size
 	 */
-	public int getSize(){}
+	public int getSize(){
+		return this.grid.length;
+	}
 	
 	/**
 	 * Enters a move in the game grid
