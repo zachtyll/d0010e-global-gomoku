@@ -16,16 +16,18 @@ public class GomokuGameState extends Observable implements Observer{
 
    // Game variables
 	private final int DEFAULT_SIZE = 15;
-	private GameGrid gameGrid;
-	
-    //Possible game states
-	private final int NOT_STARTED = 0;
 	private int currentState;
-	
-	private GomokuClient client;
-	
 	private String message;
-	
+
+    // Possible game states
+	private final int NOT_STARTED = 0;
+	private final int MY_TURN = 1;
+	private final int OTHERS_TURN = 2;
+	private final int FINISHED = 3;
+
+	private GameGrid gameGrid;
+	private GomokuClient client;
+
 	/**
 	 * The constructor
 	 * 
@@ -38,14 +40,13 @@ public class GomokuGameState extends Observable implements Observer{
 		currentState = NOT_STARTED;
 		gameGrid = new GameGrid(DEFAULT_SIZE);
 	}
-	
 
 	/**
 	 * Returns the message string
 	 * 
 	 * @return the message string
 	 */
-//	public String getMessageString(){}
+	public String getMessageString(){ return message; }
 	
 	/**
 	 * Returns the game grid
@@ -62,7 +63,17 @@ public class GomokuGameState extends Observable implements Observer{
 	 * @param x the x coordinate
 	 * @param y the y coordinate
 	 */
-	public void move(int x, int y){}
+	public void move(int x, int y){
+		if (currentState == MY_TURN) {
+			if (gameGrid.move(x,y,gameGrid.ME)) {
+				gameGrid.move(x,y,gameGrid.ME);
+			} else {
+				message = "This square is already occupied!";
+			}
+		} else {
+			message = "It is not your turn!";
+		}
+	}
 	
 	/**
 	 * Starts a new game with the current client
