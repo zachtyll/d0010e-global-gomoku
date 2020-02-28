@@ -45,14 +45,16 @@ public class GomokuGameState extends Observable implements Observer{
 	 * 
 	 * @return the message string
 	 */
-	public String getMessageString(){}
+//	public String getMessageString(){}
 	
 	/**
 	 * Returns the game grid
 	 * 
 	 * @return the game grid
 	 */
-	public GameGrid getGameGrid(){}
+	public GameGrid getGameGrid(){
+		return gameGrid;
+	}
 
 	/**
 	 * This player makes a move at a specified location
@@ -97,11 +99,11 @@ public class GomokuGameState extends Observable implements Observer{
 		switch(client.getConnectionStatus()){
 		case GomokuClient.CLIENT:
 			message = "Game started, it is your turn!";
-			currentState = MY_TURN;
+//			currentState = MY_TURN;
 			break;
 		case GomokuClient.SERVER:
 			message = "Game started, waiting for other player...";
-			currentState = OTHER_TURN;
+//			currentState = OTHER_TURN;
 			break;
 		}
 		setChanged();

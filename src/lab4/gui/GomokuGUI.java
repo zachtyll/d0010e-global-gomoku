@@ -36,19 +36,19 @@ public class GomokuGUI implements Observer{
 		// Update the buttons if the connection status has changed
 		if(arg0 == client){
 			if(client.getConnectionStatus() == GomokuClient.UNCONNECTED){
-				connectButton.setEnabled(true);
-				newGameButton.setEnabled(false);
-				disconnectButton.setEnabled(false);
+//				connectButton.setEnabled(true);
+//				newGameButton.setEnabled(false);
+//				disconnectButton.setEnabled(false);
 			}else{
-				connectButton.setEnabled(false);
-				newGameButton.setEnabled(true);
-				disconnectButton.setEnabled(true);
+//				connectButton.setEnabled(false);
+//				newGameButton.setEnabled(true);
+//				disconnectButton.setEnabled(true);
 			}
 		}
 		
 		// Update the status text if the gamestate has changed
 		if(arg0 == gamestate){
-			messageLabel.setText(gamestate.getMessageString());
+//			messageLabel.setText(gamestate.getMessageString());
 		}
 		
 	}

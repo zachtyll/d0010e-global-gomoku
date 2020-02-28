@@ -1,5 +1,6 @@
 package lab4.data;
 
+import java.util.Arrays;
 import java.util.Observable;
 
 /**
@@ -8,6 +9,10 @@ import java.util.Observable;
 
 public class GameGrid extends Observable{
 	private int[][] grid;
+	private int INROW = 5;
+	public static final int OTHER = -1;
+	public static final int EMPTY = 0;
+	public static final int ME = 1;
 
 
 	/**
@@ -35,9 +40,7 @@ public class GameGrid extends Observable{
 	 * 
 	 * @return the grid size
 	 */
-	public int getSize(){
-		return this.grid.length;
-	}
+	public int getSize(){ return this.grid.length; }
 	
 	/**
 	 * Enters a move in the game grid
@@ -47,12 +50,27 @@ public class GameGrid extends Observable{
 	 * @param player
 	 * @return true if the insertion worked, false otherwise
 	 */
-	public boolean move(int x, int y, int player){}
+	public boolean move(int x, int y, int player){
+		if (getLocation(x, y) == EMPTY) {
+			this.grid[x][y] = player;
+			this.hasChanged();
+			this.notifyObservers();
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 	/**
 	 * Clears the grid of pieces
 	 */
-	public void clearGrid(){}
+	public void clearGrid(){
+		for (int i = 0; i < getSize(); i ++) {
+			Arrays.fill(this.grid[i], EMPTY);
+		}
+		this.hasChanged();
+		this.notifyObservers();
+	}
 	
 	/**
 	 * Check if a player has 5 in row
@@ -60,7 +78,20 @@ public class GameGrid extends Observable{
 	 * @param player the player to check for
 	 * @return true if player has 5 in row, false otherwise
 	 */
-	public boolean isWinner(int player){}
-	
-	
+	public boolean isWinner(int player){
+		int consecutive = 0;
+		for (int i = 0; i < getSize(); i++) {
+			for (int j = 0; j < getSize(); j++) {
+				if (consecutive == INROW) {
+					return true;
+				}
+				if (this.grid[i][j] == player) {
+					consecutive++;
+				} else {
+					consecutive = 0;
+				}
+			}
+		}
+		return false;
+	}
 }
