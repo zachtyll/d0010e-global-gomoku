@@ -47,7 +47,7 @@ public class GameGrid extends Observable{
 	 * 
 	 * @param x the x position
 	 * @param y the y position
-	 * @param player
+	 * @param player the player that tries to occupy the square
 	 * @return true if the insertion worked, false otherwise
 	 */
 	public boolean move(int x, int y, int player){
