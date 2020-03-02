@@ -22,6 +22,7 @@ public class GomokuGUI implements Observer{
 	private JFrame mainFrame;
 	private JLabel headerLabel;
 	private JLabel statusLabel;
+	private JLabel messageLabel;
 	private JPanel buttonPanel;
 	private JPanel boardPanel;
 	private JPanel controlPanel;
@@ -41,7 +42,7 @@ public class GomokuGUI implements Observer{
 		// Setup main frame.
 		mainFrame = new JFrame("Global Gomoku");
 		mainFrame.setSize(1000,1000);
-		mainFrame.setLayout(new GridLayout(3,2));
+		mainFrame.setLayout(new GridLayout(3, 1));
 
 		mainFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent){
@@ -50,10 +51,11 @@ public class GomokuGUI implements Observer{
 			}
 		});
 
-		// Setup header label.
+		// Setup labels.
 		headerLabel = new JLabel("", JLabel.CENTER);
 		statusLabel = new JLabel("", JLabel.CENTER);
 		statusLabel.setSize(350,100);
+		messageLabel = new JLabel("messageLabel", JLabel.CENTER);
 
 		// Setup Board panel.
 		boardPanel = new JPanel();
@@ -69,11 +71,9 @@ public class GomokuGUI implements Observer{
 
 		// Add components.
 //		mainFrame.add(gameGridPanel);
+		mainFrame.add(controlPanel);
 		mainFrame.add(headerLabel);
 		mainFrame.add(statusLabel);
-		mainFrame.add(controlPanel);
-		mainFrame.add(buttonPanel);
-		mainFrame.add(boardPanel);
 		mainFrame.setVisible(true);
 	}
 	
@@ -94,8 +94,6 @@ public class GomokuGUI implements Observer{
 		JButton newGameButton = new JButton("newGameButton");
 		JButton disconnectButton = new JButton("disconnectButton");
 
-		JLabel messageLabel = new JLabel("messageLabel");
-
 		connectButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				statusLabel.setText("connectButton clicked.");
@@ -103,7 +101,7 @@ public class GomokuGUI implements Observer{
 		});
 		newGameButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				statusLabel.setText("newGameButton clicked.");
+				messageLabel.setText("newGameButton clicked.");
 			}
 		});
 		disconnectButton.addActionListener(new ActionListener() {
