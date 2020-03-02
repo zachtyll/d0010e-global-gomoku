@@ -67,6 +67,13 @@ public class GomokuGameState extends Observable implements Observer{
 		if (currentState == MY_TURN) {
 			if (gameGrid.move(x,y,gameGrid.ME)) {
 				gameGrid.move(x,y,gameGrid.ME);
+				client.sendMoveMessage(x, y);
+				if (gameGrid.isWinner(gameGrid.ME)) {
+					currentState = FINISHED;
+					message = "You are the winner!";
+				}
+				setChanged();
+				notifyObservers();
 			} else {
 				message = "This square is already occupied!";
 			}
