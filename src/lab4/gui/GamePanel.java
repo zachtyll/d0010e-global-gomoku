@@ -55,7 +55,7 @@ public class GamePanel extends JPanel implements Observer{
 		int width = grid.getSize() * UNIT_SIZE;
 		int height = grid.getSize() * UNIT_SIZE;
 
-		g.drawRect(0,0, width,height);
+//		g.drawRect(0,0, width,height);
 		g.setColor(Color.RED);
 		g.fillRect(0,0,width,height);
 	}

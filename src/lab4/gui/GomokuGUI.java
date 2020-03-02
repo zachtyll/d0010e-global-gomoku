@@ -22,6 +22,8 @@ public class GomokuGUI implements Observer{
 	private JFrame mainFrame;
 	private JLabel headerLabel;
 	private JLabel statusLabel;
+	private JPanel buttonPanel;
+	private JPanel boardPanel;
 	private JPanel controlPanel;
 
 	/**
@@ -38,8 +40,8 @@ public class GomokuGUI implements Observer{
 
 		// Setup main frame.
 		mainFrame = new JFrame("Global Gomoku");
-		mainFrame.setSize(200,400);
-		mainFrame.setLayout(new GridLayout(2, 1));
+		mainFrame.setSize(1000,1000);
+		mainFrame.setLayout(new GridLayout(3,2));
 
 		mainFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent){
@@ -48,37 +50,46 @@ public class GomokuGUI implements Observer{
 			}
 		});
 
-		// Setup labels.
+		// Setup header label.
 		headerLabel = new JLabel("", JLabel.CENTER);
 		statusLabel = new JLabel("", JLabel.CENTER);
 		statusLabel.setSize(350,100);
 
-		// Setup Board
-		GamePanel gameGridPanel = new GamePanel(g.getGameGrid());
-		int width = g.getGameGrid().getSize() * gameGridPanel.UNIT_SIZE;
-		int height = g.getGameGrid().getSize() * gameGridPanel.UNIT_SIZE;
-		gameGridPanel.setSize(width, height);
-
-		gameGridPanel.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-
-				statusLabel.setText("Lol:" + e.getX() + "yY:" + e.getY());
-			}
-		});
+		// Setup Board panel.
+		boardPanel = new JPanel();
+		boardPanel.setLayout(new FlowLayout());
 
 		// Setup buttons panel.
+		buttonPanel = new JPanel();
+		buttonPanel.setLayout(new FlowLayout());
+
+		// Setup grouping panel
 		controlPanel = new JPanel();
-		controlPanel.setLayout(new FlowLayout());
+		controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
 
 		// Add components.
-		mainFrame.add(gameGridPanel);
+//		mainFrame.add(gameGridPanel);
 		mainFrame.add(headerLabel);
-		mainFrame.add(controlPanel);
 		mainFrame.add(statusLabel);
+		mainFrame.add(controlPanel);
+		mainFrame.add(buttonPanel);
+		mainFrame.add(boardPanel);
 		mainFrame.setVisible(true);
 	}
 	
 	public void update(Observable arg0, Object arg1) {
+		// Setup Board
+		GamePanel gameGridPanel = new GamePanel(gamestate.getGameGrid());
+		int width = gamestate.getGameGrid().getSize() * gameGridPanel.UNIT_SIZE;
+		int height = gamestate.getGameGrid().getSize() * gameGridPanel.UNIT_SIZE;
+		gameGridPanel.setSize(width, height);
+
+		gameGridPanel.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				statusLabel.setText("x: " + e.getX() + "y: " + e.getY());
+			}
+		});
+
 		JButton connectButton = new JButton("connectButton");
 		JButton newGameButton = new JButton("newGameButton");
 		JButton disconnectButton = new JButton("disconnectButton");
@@ -100,9 +111,16 @@ public class GomokuGUI implements Observer{
 				statusLabel.setText("disconnectButton clicked.");
 			}
 		});
-		controlPanel.add(connectButton);
-		controlPanel.add(newGameButton);
-		controlPanel.add(disconnectButton);
+
+		boardPanel.add(gameGridPanel);
+
+		buttonPanel.add(connectButton);
+		buttonPanel.add(newGameButton);
+		buttonPanel.add(disconnectButton);
+
+		controlPanel.add(boardPanel);
+		controlPanel.add(buttonPanel);
+		controlPanel.add(messageLabel);
 
 		mainFrame.setVisible(true);
 
