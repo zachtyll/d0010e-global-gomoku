@@ -56,7 +56,7 @@ public class GomokuGUI implements Observer{
 		mainFrame.add(controlPanel);
 		mainFrame.add(statusLabel);
 		mainFrame.setVisible(true);
-
+		controlPanel.setVisible(true);
 
 	}
 	
@@ -66,6 +66,28 @@ public class GomokuGUI implements Observer{
 		JButton disconnectButton = new JButton("disconnectButton");
 
 		JLabel messageLabel = new JLabel("messageLabel");
+
+		connectButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				statusLabel.setText("connectButton clicked.");
+			}
+		});
+		newGameButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				statusLabel.setText("newGameButton clicked.");
+			}
+		});
+		disconnectButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				statusLabel.setText("disconnectButton clicked.");
+			}
+		});
+		controlPanel.add(connectButton);
+		controlPanel.add(newGameButton);
+		controlPanel.add(disconnectButton);
+
+		controlPanel.setVisible(true);
+		mainFrame.setVisible(true);
 
 		// Update the buttons if the connection status has changed
 		if(arg0 == client){
