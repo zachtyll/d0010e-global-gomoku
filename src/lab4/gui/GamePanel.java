@@ -52,7 +52,7 @@ public class GamePanel extends JPanel implements Observer{
 	
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		
+		g.drawString("This is my custom Panel!",10,20);
 	}
 	
 }

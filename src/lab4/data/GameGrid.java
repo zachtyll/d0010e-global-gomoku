@@ -10,9 +10,9 @@ import java.util.Observable;
 public class GameGrid extends Observable{
 	private int[][] grid;
 	private int INROW = 5;
-	public static final int OTHER = -1;
-	public static final int EMPTY = 0;
-	public static final int ME = 1;
+	public final int OTHER = -1;
+	public final int EMPTY = 0;
+	public final int ME = 1;
 
 
 	/**
