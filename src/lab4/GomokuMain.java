@@ -27,5 +27,6 @@ public class GomokuMain {
         GomokuClient gc = new GomokuClient(portNumber);
         GomokuGameState gs = new GomokuGameState(gc);
         GomokuGUI gg = new GomokuGUI(gs, gc);
+        gg.update(gs, gc);
     }
 }

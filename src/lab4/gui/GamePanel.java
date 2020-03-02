@@ -16,7 +16,7 @@ import lab4.data.GameGrid;
 
 public class GamePanel extends JPanel implements Observer{
 
-	private final int UNIT_SIZE = 20;
+	public final int UNIT_SIZE = 20;
 	private GameGrid grid;
 	
 	/**
@@ -52,7 +52,12 @@ public class GamePanel extends JPanel implements Observer{
 	
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		g.drawString("This is my custom Panel!",10,20);
+		int width = grid.getSize() * UNIT_SIZE;
+		int height = grid.getSize() * UNIT_SIZE;
+
+		g.drawRect(0,0, width,height);
+		g.setColor(Color.RED);
+		g.fillRect(0,0,width,height);
 	}
 	
 }

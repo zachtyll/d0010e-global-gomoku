@@ -36,28 +36,43 @@ public class GomokuGUI implements Observer{
 		client.addObserver(this);
 		gamestate.addObserver(this);
 
+		// Setup main frame.
 		mainFrame = new JFrame("Global Gomoku");
 		mainFrame.setSize(400,400);
-		mainFrame.setLayout(new GridLayout(3, 1));
+		mainFrame.setLayout(new GridLayout(2, 1));
 
 		mainFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent){
+				System.out.println("Exiting Global Gomoku.");
 				System.exit(0);
 			}
 		});
+
+		// Setup labels.
 		headerLabel = new JLabel("", JLabel.CENTER);
-		statusLabel = new JLabel("",JLabel.CENTER);
+		statusLabel = new JLabel("", JLabel.CENTER);
 		statusLabel.setSize(350,100);
 
+		// Setup Board
+		GamePanel gameGridPanel = new GamePanel(g.getGameGrid());
+		gameGridPanel.setSize(g.getGameGrid().getSize() * gameGridPanel.UNIT_SIZE, g.getGameGrid().getSize() * gameGridPanel.UNIT_SIZE);
+
+		gameGridPanel.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseAdapter e) {
+				statusLabel.setText("Lol:" + e);
+			}
+		});
+
+		// Setup buttons panel.
 		controlPanel = new JPanel();
 		controlPanel.setLayout(new FlowLayout());
 
+		// Add components.
+		mainFrame.add(gameGridPanel);
 		mainFrame.add(headerLabel);
 		mainFrame.add(controlPanel);
 		mainFrame.add(statusLabel);
 		mainFrame.setVisible(true);
-		controlPanel.setVisible(true);
-
 	}
 	
 	public void update(Observable arg0, Object arg1) {
@@ -86,7 +101,6 @@ public class GomokuGUI implements Observer{
 		controlPanel.add(newGameButton);
 		controlPanel.add(disconnectButton);
 
-		controlPanel.setVisible(true);
 		mainFrame.setVisible(true);
 
 		// Update the buttons if the connection status has changed
