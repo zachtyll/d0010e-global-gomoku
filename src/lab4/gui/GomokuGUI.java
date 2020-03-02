@@ -38,7 +38,7 @@ public class GomokuGUI implements Observer{
 
 		// Setup main frame.
 		mainFrame = new JFrame("Global Gomoku");
-		mainFrame.setSize(400,400);
+		mainFrame.setSize(200,400);
 		mainFrame.setLayout(new GridLayout(2, 1));
 
 		mainFrame.addWindowListener(new WindowAdapter() {
@@ -55,11 +55,14 @@ public class GomokuGUI implements Observer{
 
 		// Setup Board
 		GamePanel gameGridPanel = new GamePanel(g.getGameGrid());
-		gameGridPanel.setSize(g.getGameGrid().getSize() * gameGridPanel.UNIT_SIZE, g.getGameGrid().getSize() * gameGridPanel.UNIT_SIZE);
+		int width = g.getGameGrid().getSize() * gameGridPanel.UNIT_SIZE;
+		int height = g.getGameGrid().getSize() * gameGridPanel.UNIT_SIZE;
+		gameGridPanel.setSize(width, height);
 
 		gameGridPanel.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseAdapter e) {
-				statusLabel.setText("Lol:" + e);
+			public void mouseClicked(MouseEvent e) {
+
+				statusLabel.setText("Lol:" + e.getX() + "yY:" + e.getY());
 			}
 		});
 
