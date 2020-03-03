@@ -118,13 +118,13 @@ public class GomokuGUI implements Observer{
 		GroupLayout.SequentialGroup vGroup = groupLayout.createSequentialGroup();
 
 		hGroup.addGroup(groupLayout.createParallelGroup().
-				addComponent(gameGridPanel).
+				addComponent(boardPanel).
 				addComponent(buttonPanel).
 				addComponent(messageLabel));
 		groupLayout.setHorizontalGroup(hGroup);
 
 		vGroup.addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).
-				addComponent(gameGridPanel));
+				addComponent(boardPanel));
 		vGroup.addGroup(groupLayout.createParallelGroup().
 				addComponent(buttonPanel));
 		vGroup.addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).
