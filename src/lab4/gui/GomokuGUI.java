@@ -15,7 +15,7 @@ import java.awt.event.*;
 
 public class GomokuGUI implements Observer{
 
-	private GomokuClient client;
+	private final GomokuClient client;
 	private GomokuGameState gamestate;
 
 	private JFrame mainFrame;
@@ -74,6 +74,7 @@ public class GomokuGUI implements Observer{
 		connectButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				messageLabel.setText("connectButton clicked.");
+//				ConnectionWindow connectionWindow = new c.ConnectionWindow();
 			}
 		});
 		newGameButton.addActionListener(new ActionListener() {
