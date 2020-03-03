@@ -3,7 +3,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import lab4.client.GomokuClient;
-import lab4.data.GameGrid;
 import lab4.data.GomokuGameState;
 
 import java.awt.*;
@@ -23,6 +22,10 @@ public class GomokuGUI implements Observer{
 	private JLabel messageLabel;
 	private JPanel buttonPanel;
 	private JPanel boardPanel;
+
+	private JButton connectButton;
+	private JButton newGameButton;
+	private JButton disconnectButton;
 
 	private final int width;
 	private final int height;
@@ -63,33 +66,10 @@ public class GomokuGUI implements Observer{
 		groupLayout.setAutoCreateGaps(true);
 		groupLayout.setAutoCreateContainerGaps(true);
 
-		// Setup labels.
-		messageLabel = new JLabel("messageLabel", JLabel.CENTER);
-		messageLabel.setBorder(BorderFactory.createLineBorder(Color.black));
-
-		// Setup Board panel.
-		boardPanel = new JPanel();
-		boardPanel.setLayout(new FlowLayout());
-		boardPanel.setSize(width, height);
-		boardPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-
-		// Setup buttons panel.
-		buttonPanel = new JPanel();
-		buttonPanel.setLayout(new FlowLayout());
-		boardPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-
-		// Setup Board
-		gameGridPanel.setSize(width, height);
-
-		gameGridPanel.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				messageLabel.setText("x: " + e.getX() + "y: " + e.getY());
-			}
-		});
-
-		JButton connectButton = new JButton("connectButton");
-		JButton newGameButton = new JButton("newGameButton");
-		JButton disconnectButton = new JButton("disconnectButton");
+		// Setup Buttons.
+		connectButton = new JButton("connectButton");
+		newGameButton = new JButton("newGameButton");
+		disconnectButton = new JButton("disconnectButton");
 
 		connectButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -107,16 +87,45 @@ public class GomokuGUI implements Observer{
 			}
 		});
 
+		// Setup label.
+		messageLabel = new JLabel("messageLabel", JLabel.CENTER);
+
+		// Setup Board.
+		gameGridPanel.setSize(width, height);
+
+		// Setup Button Panel.
+		buttonPanel = new JPanel();
+		buttonPanel.add(connectButton);
+		buttonPanel.add(newGameButton);
+		buttonPanel.add(disconnectButton);
+		buttonPanel.setLayout(new FlowLayout());
+
+		// Setup Board Panel.
+		boardPanel = new JPanel();
+		boardPanel.add(gameGridPanel);
+		boardPanel.setLayout(new FlowLayout());
+		boardPanel.setSize(width, height);
+
+		gameGridPanel.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				messageLabel.setText("x: " + e.getX() + "y: " + e.getY());
+			}
+		});
+
+
+
 		GroupLayout.SequentialGroup hGroup = groupLayout.createSequentialGroup();
 		GroupLayout.SequentialGroup vGroup = groupLayout.createSequentialGroup();
 
 		hGroup.addGroup(groupLayout.createParallelGroup().
-				addComponent(boardPanel).addComponent(buttonPanel).addComponent(messageLabel));
+				addComponent(gameGridPanel).
+				addComponent(buttonPanel).
+				addComponent(messageLabel));
 		groupLayout.setHorizontalGroup(hGroup);
 
 		vGroup.addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).
-				addComponent(boardPanel));
-		vGroup.addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).
+				addComponent(gameGridPanel));
+		vGroup.addGroup(groupLayout.createParallelGroup().
 				addComponent(buttonPanel));
 		vGroup.addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).
 				addComponent(messageLabel));
@@ -127,41 +136,6 @@ public class GomokuGUI implements Observer{
 	}
 	
 	public void update(Observable arg0, Object arg1) {
-//		// Setup Board
-//		gameGridPanel.setSize(width, height);
-//
-//		gameGridPanel.addMouseListener(new MouseAdapter() {
-//			public void mouseClicked(MouseEvent e) {
-//				messageLabel.setText("x: " + e.getX() + "y: " + e.getY());
-//			}
-//		});
-//
-//		JButton connectButton = new JButton("connectButton");
-//		JButton newGameButton = new JButton("newGameButton");
-//		JButton disconnectButton = new JButton("disconnectButton");
-//
-//		connectButton.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				messageLabel.setText("connectButton clicked.");
-//			}
-//		});
-//		newGameButton.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				messageLabel.setText("newGameButton clicked.");
-//			}
-//		});
-//		disconnectButton.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				messageLabel.setText("disconnectButton clicked.");
-//			}
-//		});
-
-		boardPanel.add(gameGridPanel);
-
-		buttonPanel.add(connectButton);
-		buttonPanel.add(newGameButton);
-		buttonPanel.add(disconnectButton);
-		buttonPanel.add(messageLabel);
 
 		mainFrame.setVisible(true);
 
