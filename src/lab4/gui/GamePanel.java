@@ -15,8 +15,7 @@ import lab4.data.GameGrid;
  */
 
 public class GamePanel extends JPanel implements Observer{
-
-	public final int UNIT_SIZE = 20;
+	private final int UNIT_SIZE = 20;
 	private GameGrid grid;
 	
 	/**
@@ -42,7 +41,7 @@ public class GamePanel extends JPanel implements Observer{
 	 * @return an integer array containing the [x, y] grid position
 	 */
 	public int[] getGridPosition(int x, int y){
-		int[] gridPosition = {(int)(x/UNIT_SIZE), (int)(y/UNIT_SIZE)};
+		int[] gridPosition = {(x/UNIT_SIZE), (y/UNIT_SIZE)};
 		return gridPosition;
 	}
 	
@@ -52,12 +51,20 @@ public class GamePanel extends JPanel implements Observer{
 	
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		int width = grid.getSize() * UNIT_SIZE;
-		int height = grid.getSize() * UNIT_SIZE;
+		int width = grid.getSize() * UNIT_SIZE + grid.getSize() - 1;
+		int height = grid.getSize() * UNIT_SIZE + grid.getSize() - 1;
 
-//		g.drawRect(0,0, width,height);
-		g.setColor(Color.RED);
-		g.fillRect(0,0,width,height);
+		g.setColor(Color.WHITE);
+		g.fillRect(0,0, width, height);
+
+        g.setColor(Color.BLACK);
+		g.drawRect(0,0, width, height);
+        for (int i = 0; i < width; i = i + UNIT_SIZE) {
+            g.drawLine(0, i, width, i);
+        }
+        for (int i = 0; i < height; i = i + UNIT_SIZE) {
+            g.drawLine(i, 0, i, height);
+        }
 	}
 	
 }

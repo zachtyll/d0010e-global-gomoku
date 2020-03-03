@@ -15,7 +15,7 @@ import java.awt.event.*;
 
 public class GomokuGUI implements Observer{
 
-	private final GomokuClient client;
+	private GomokuClient client;
 	private GomokuGameState gamestate;
 
 	private JFrame mainFrame;
@@ -27,8 +27,6 @@ public class GomokuGUI implements Observer{
 	private JButton newGameButton;
 	private JButton disconnectButton;
 
-	private final int width;
-	private final int height;
 	private GamePanel gameGridPanel;
 
 	/**
@@ -37,20 +35,16 @@ public class GomokuGUI implements Observer{
 	 * @param g   The game state that the GUI will visualize
 	 * @param c   The client that is responsible for the communication
 	 */
-	public GomokuGUI(GomokuGameState g, GomokuClient c){
+	public GomokuGUI(final GomokuGameState g, GomokuClient c){
 		this.client = c;
 		this.gamestate = g;
 		client.addObserver(this);
 		gamestate.addObserver(this);
 
-		gameGridPanel = new GamePanel(g.getGameGrid());
-		width = gamestate.getGameGrid().getSize() * gameGridPanel.UNIT_SIZE;
-		height = gamestate.getGameGrid().getSize() * gameGridPanel.UNIT_SIZE;
-
 		// Setup main frame.
 		mainFrame = new JFrame("Global Gomoku");
 		mainFrame.setSize(450, 450);
-		mainFrame.setLayout(new GridLayout(3, 1, 10, 10));
+		mainFrame.setLayout(new GridLayout(3, 1));
 
 
 		mainFrame.addWindowListener(new WindowAdapter() {
@@ -74,17 +68,19 @@ public class GomokuGUI implements Observer{
 		connectButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				messageLabel.setText("connectButton clicked.");
-//				ConnectionWindow connectionWindow = new c.ConnectionWindow();
+				ConnectionWindow connectionWindow = new ConnectionWindow(client);
 			}
 		});
 		newGameButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				messageLabel.setText("newGameButton clicked.");
+				gamestate.newGame();
 			}
 		});
 		disconnectButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				messageLabel.setText("disconnectButton clicked.");
+				gamestate.disconnect();
 			}
 		});
 
@@ -92,7 +88,7 @@ public class GomokuGUI implements Observer{
 		messageLabel = new JLabel("messageLabel", JLabel.CENTER);
 
 		// Setup Board.
-		gameGridPanel.setSize(width, height);
+		gameGridPanel = new GamePanel(g.getGameGrid());
 
 		// Setup Button Panel.
 		buttonPanel = new JPanel();
@@ -105,16 +101,19 @@ public class GomokuGUI implements Observer{
 		boardPanel = new JPanel();
 		boardPanel.add(gameGridPanel);
 		boardPanel.setLayout(new FlowLayout());
-		boardPanel.setSize(width, height);
 
 		gameGridPanel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				messageLabel.setText("x: " + e.getX() + "y: " + e.getY());
+				int x = e.getX();
+				int y = e.getY();
+				int[] gridPosition = gameGridPanel.getGridPosition(x, y);
+				g.move(gridPosition[0], gridPosition[1]);
+
 			}
 		});
 
-
-
+		// GUI Layout.
 		GroupLayout.SequentialGroup hGroup = groupLayout.createSequentialGroup();
 		GroupLayout.SequentialGroup vGroup = groupLayout.createSequentialGroup();
 
@@ -131,7 +130,6 @@ public class GomokuGUI implements Observer{
 		vGroup.addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).
 				addComponent(messageLabel));
 		groupLayout.setVerticalGroup(vGroup);
-
 
 		mainFrame.setVisible(true);
 	}
