@@ -53,7 +53,7 @@ public class GameGrid extends Observable{
 	public boolean move(int x, int y, int player){
 		if (getLocation(x, y) == EMPTY) {
 			this.grid[x][y] = player;
-			this.hasChanged();
+			this.setChanged();
 			this.notifyObservers();
 			return true;
 		} else {
@@ -79,19 +79,83 @@ public class GameGrid extends Observable{
 	 * @return true if player has 5 in row, false otherwise
 	 */
 	public boolean isWinner(int player){
-		int consecutive = 0;
+		int consecutive_row = 0;
+		int consecutive_col = 0;
+		int consecutive_dgnl_left_x = 0;
+		int consecutive_dgnl_left_y = 0;
+		int consecutive_dgnl_right_x = 0;
+		int consecutive_dgnl_right_y = 0;
+
 		for (int i = 0; i < getSize(); i++) {
 			for (int j = 0; j < getSize(); j++) {
-				if (consecutive == INROW) {
+				// Check Rows.
+				if (consecutive_row == INROW) {
 					return true;
 				}
-				if (this.grid[i][j] == player) {
-					consecutive++;
+				else if (getLocation(j, i) == player) {
+					consecutive_row++;
 				} else {
-					consecutive = 0;
+					consecutive_row = 0;
+				}
+				// Check Columns.
+				if (consecutive_col == INROW) {
+					return true;
+				}
+				if (getLocation(i, j) == player) {
+					consecutive_col++;
+				} else {
+					consecutive_col = 0;
+				}
+				// Check Diagonals going right.
+				if (consecutive_dgnl_right_x == INROW || consecutive_dgnl_right_y == INROW) {
+					return true;
+				} else if (getLocation(i + j, j) == player) {
+					consecutive_dgnl_right_x++;
+				} else if (getLocation(j, i + j) == player) {
+					consecutive_dgnl_right_y++;
+				} else {
+					consecutive_dgnl_right_x = 0;
+					consecutive_dgnl_right_y = 0;
+				}
+				// Check Diagonals going left.
+				if (consecutive_dgnl_left_x == INROW || consecutive_dgnl_left_y == INROW) {
+					return true;
+				} else if (getLocation(getSize() - i + j, j) == player) {
+					consecutive_dgnl_left_x++;
+				} else if (getLocation(j, getSize() - i + j) == player) {
+					consecutive_dgnl_left_y++;
+				} else {
+					consecutive_dgnl_left_x = 0;
+					consecutive_dgnl_left_y = 0;
 				}
 			}
 		}
+//		for (int i = 0; i < getSize(); i++) {
+//			for (int j = 0; j < getSize(); j++) {
+//				// Check Diagonals going right.
+//				if (consecutive_dgnl_right_x == INROW || consecutive_dgnl_right_y == INROW) {
+//					return true;
+//				} else if (getLocation(i + j, j) == player) {
+//					consecutive_dgnl_right_x++;
+//				} else if (getLocation(j, i + j) == player) {
+//					consecutive_dgnl_right_y++;
+//				} else {
+//					consecutive_dgnl_right_x = 0;
+//					consecutive_dgnl_right_y = 0;
+//				}
+//				// Check Diagonals going left.
+//				if (consecutive_dgnl_left_x == INROW || consecutive_dgnl_left_y == INROW) {
+//					return true;
+//				} else if (getLocation(getSize() - i + j, j) == player) {
+//					consecutive_dgnl_left_x++;
+//				} else if (getLocation(j, getSize() - i + j) == player) {
+//					consecutive_dgnl_left_y++;
+//				} else {
+//					consecutive_dgnl_left_x = 0;
+//					consecutive_dgnl_left_y = 0;
+//				}
+//			}
+//		}
 		return false;
 	}
 }

@@ -71,6 +71,9 @@ public class GomokuGameState extends Observable implements Observer{
 				if (gameGrid.isWinner(gameGrid.ME)) {
 					currentState = FINISHED;
 					message = "You are the winner!";
+				} else {
+					currentState = OTHERS_TURN;
+					message = "Other players turn.";
 				}
 				setChanged();
 				notifyObservers();
@@ -86,12 +89,16 @@ public class GomokuGameState extends Observable implements Observer{
 	 * Starts a new game with the current client
 	 */
 	public void newGame(){
-		gameGrid.clearGrid();
-		currentState = OTHERS_TURN;
-		message = "Other players turn.";
-		client.sendNewGameMessage();
-		setChanged();
-		notifyObservers();
+		if (client.getConnectionStatus() == GomokuClient.UNCONNECTED) {
+			message = "You are not connected!";
+		} else {
+			gameGrid.clearGrid();
+			currentState = OTHERS_TURN;
+			message = "Other players turn.";
+			client.sendNewGameMessage();
+		}
+			setChanged();
+			notifyObservers();
 	}
 	
 	/**
@@ -114,17 +121,22 @@ public class GomokuGameState extends Observable implements Observer{
 		gameGrid.clearGrid();
 		currentState = NOT_STARTED;
 		message = "Other player has disconnected from the game.";
-
+		setChanged();
+		notifyObservers();
 	}
 	
 	/**
 	 * The player disconnects from the client
 	 */
 	public void disconnect(){
-		gameGrid.clearGrid();
-		currentState = NOT_STARTED;
-		message = "You have disconnected from the game.";
-		client.disconnect();
+		if (client.getConnectionStatus() == GomokuClient.UNCONNECTED) {
+			message = "You are not connected!";
+		} else {
+			gameGrid.clearGrid();
+			currentState = NOT_STARTED;
+			client.disconnect();
+			message = "You have disconnected from the game.";
+		}
 		setChanged();
 		notifyObservers();
 	}
@@ -140,6 +152,9 @@ public class GomokuGameState extends Observable implements Observer{
 		if (gameGrid.isWinner(gameGrid.OTHER)) {
 			message = "You have lost!";
 			currentState = FINISHED;
+		} else {
+			currentState = MY_TURN;
+			message = "It is your turn.";
 		}
 		setChanged();
 		notifyObservers();

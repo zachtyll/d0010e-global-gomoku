@@ -16,6 +16,7 @@ import lab4.data.GameGrid;
 
 public class GamePanel extends JPanel implements Observer{
 	private final int UNIT_SIZE = 20;
+	private final int GRID_WIDTH = 1;
 	private GameGrid grid;
 	
 	/**
@@ -51,20 +52,37 @@ public class GamePanel extends JPanel implements Observer{
 	
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		int width = grid.getSize() * UNIT_SIZE + grid.getSize() - 1;
-		int height = grid.getSize() * UNIT_SIZE + grid.getSize() - 1;
+		int board_width = grid.getSize() * UNIT_SIZE + grid.getSize();
+		int board_height = grid.getSize() * UNIT_SIZE + grid.getSize();
 
 		g.setColor(Color.WHITE);
-		g.fillRect(0,0, width, height);
+		g.fillRect(0,0, board_width, board_height);
 
+		// Create Grid Horizontal Lines.
         g.setColor(Color.BLACK);
-		g.drawRect(0,0, width, height);
-        for (int i = 0; i < width; i = i + UNIT_SIZE) {
-            g.drawLine(0, i, width, i);
+		g.drawRect(0,0, board_width, board_height);
+        for (int i = 0; i < board_width; i = i + UNIT_SIZE) {
+            g.drawLine(0, i, board_width, i);
         }
-        for (int i = 0; i < height; i = i + UNIT_SIZE) {
-            g.drawLine(i, 0, i, height);
+		// Create Grid Vertical Lines.
+        for (int i = 0; i < board_height; i = i + UNIT_SIZE) {
+            g.drawLine(i, 0, i, board_height);
         }
+
+        // Draw Game Pieces.
+        for (int i = 0; i < grid.getSize(); i++) {
+        	for (int j = 0; j < grid.getSize(); j++) {
+        		if (grid.getLocation(i, j) == grid.ME) {
+					g.setColor(Color.BLUE);
+        			g.fillRect(i * UNIT_SIZE + GRID_WIDTH,j * UNIT_SIZE + GRID_WIDTH, UNIT_SIZE - + GRID_WIDTH, UNIT_SIZE - + GRID_WIDTH);
+				}
+        		else if (grid.getLocation(i, j) == grid.OTHER) {
+					g.setColor(Color.RED);
+					g.fillRect(i * UNIT_SIZE + GRID_WIDTH,j * UNIT_SIZE + GRID_WIDTH, UNIT_SIZE - GRID_WIDTH, UNIT_SIZE - GRID_WIDTH);
+				}
+
+			}
+		}
 	}
 	
 }

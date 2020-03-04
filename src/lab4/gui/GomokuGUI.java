@@ -67,19 +67,16 @@ public class GomokuGUI implements Observer{
 
 		connectButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				messageLabel.setText("connectButton clicked.");
 				ConnectionWindow connectionWindow = new ConnectionWindow(client);
 			}
 		});
 		newGameButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				messageLabel.setText("newGameButton clicked.");
 				gamestate.newGame();
 			}
 		});
 		disconnectButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				messageLabel.setText("disconnectButton clicked.");
 				gamestate.disconnect();
 			}
 		});
@@ -104,12 +101,10 @@ public class GomokuGUI implements Observer{
 
 		gameGridPanel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				messageLabel.setText("x: " + e.getX() + "y: " + e.getY());
 				int x = e.getX();
 				int y = e.getY();
 				int[] gridPosition = gameGridPanel.getGridPosition(x, y);
 				g.move(gridPosition[0], gridPosition[1]);
-
 			}
 		});
 
@@ -136,7 +131,7 @@ public class GomokuGUI implements Observer{
 	
 	public void update(Observable arg0, Object arg1) {
 
-		mainFrame.setVisible(true);
+//		mainFrame.setVisible(true);
 
 		// Update the buttons if the connection status has changed
 		if(arg0 == client){
