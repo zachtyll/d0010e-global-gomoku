@@ -110,10 +110,12 @@ public class GameGrid extends Observable{
 				// Check Diagonals going right.
 				if (consecutive_dgnl_right_x == INROW || consecutive_dgnl_right_y == INROW) {
 					return true;
-				} else if (getLocation(i + (j - i), j - i) == player) {
-					consecutive_dgnl_right_x++;
-				} else if (getLocation(j - i, i + (j - i)) == player) {
-					consecutive_dgnl_right_y++;
+				} else if (i + j <= boardArrayLength)  {
+					if (getLocation(i + j, j) == player) {
+						consecutive_dgnl_right_x++;
+					} else if (getLocation(j, i + j) == player) {
+						consecutive_dgnl_right_y++;
+					}
 				} else {
 					consecutive_dgnl_right_x = 0;
 					consecutive_dgnl_right_y = 0;
@@ -121,10 +123,12 @@ public class GameGrid extends Observable{
 				// Check Diagonals going left.
 				if (consecutive_dgnl_left_x == INROW || consecutive_dgnl_left_y == INROW) {
 					return true;
-				} else if (getLocation(boardArrayLength - i + (j - i), j - i) == player) {
-					consecutive_dgnl_left_x++;
-				} else if (getLocation(j - i, boardArrayLength - i + (j - i)) == player) {
-					consecutive_dgnl_left_y++;
+				} else if (j - i >= 0) {
+					if (getLocation(boardArrayLength - (i + (j - i)), j - i) == player) {
+						consecutive_dgnl_left_x++;
+					} else if (getLocation(j - i, boardArrayLength - (i + (j - i))) == player) {
+						consecutive_dgnl_left_y++;
+					}
 				} else {
 					consecutive_dgnl_left_x = 0;
 					consecutive_dgnl_left_y = 0;
